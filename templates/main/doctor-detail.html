@@ -1,0 +1,476 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block main-content %}
+
+<!-- Content Header (Page header) -->	  
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h4 class="page-title">Doctor Details</h4>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Doctor Details</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        
+    </div>
+</div>  
+
+<!-- Main content -->
+<section class="content">
+
+    <div class="row">
+        <div class="col-xl-8 col-12">
+            <div class="box">
+                <div class="box-body text-end min-h-150" style="background-image:url({% static 'images/gallery/landscape14.jpg' %}); background-repeat: no-repeat; background-position: center;background-size: cover;">
+                    <div class="bg-success rounded10 p-15 fs-18 d-inline"><i class="fa fa-stethoscope"></i> ENT Specialist</div>	
+                </div>						
+                <div class="box-body wed-up position-relative">
+                    <div class="d-md-flex align-items-end">
+                        <img src="{% static 'images/avatar/avatar-1.png' %}" class="bg-success-light rounded10 me-20" alt="" />
+                        <div>
+                            <h4>Dr. Johen doe</h4>
+                            <p><i class="fa fa-clock-o"></i> Join on 15 May 2019, 10:00 AM</p>
+                        </div>
+                    </div>
+                </div>						
+                <div class="box-body">
+                    <h4>Biography</h4>
+                    <p>Vestibulum tincidunt sit amet sapien et eleifend. Fusce pretium libero enim, nec lacinia est ultrices id. Duis nibh sapien, ultrices in hendrerit ac, pulvinar ut mauris. Quisque eu condimentum justo. In consectetur dapibus justo, et dapibus augue pellentesque sed. Etiam pulvinar pharetra est, at euismod augue vulputate sed. Morbi id porta turpis, a porta turpis. Suspendisse maximus finibus est at pellentesque. Integer ut sapien urna.</p>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-header">
+                    <h4 class="box-title">Assigned Patient</h4>
+                </div>
+                <div class="box-body">
+                    <div class="media d-lg-flex d-block text-lg-start text-center">
+                        <img class="me-3 img-fluid rounded bg-primary-light w-100" src="{% static 'images/avatar/1.jpg' %}" alt="">
+                        <div class="media-body my-10 my-lg-0">
+                            <h4 class="mt-0 mb-2">Loky Doe</h4>
+                            <h6 class="mb-4 text-primary">Cold &amp; Flue</h6>
+                            <div class="d-flex justify-content-center justify-content-lg-start">
+                                <a href="javascript:void(0);" class="btn btn-sm btn-primary-light me-4">Unassign</a>
+                                <a href="javascript:void(0);" class="btn btn-sm btn-danger-light ">Imporvement</a>
+                            </div>
+                        </div>
+                        <div id="chart" class="me-3"></div>
+                        <div class="media-footer align-self-center">
+                            <div class="up-sign text-success">
+                                <i class="fa fa-caret-up fs-38"></i>
+                                <h3 class="text-success">10%</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-header with-border">
+                    <h4 class="box-title">Resent Review</h4>
+                </div>
+                <div class="box-body p-0">
+                    <div class="inner-user-div">								
+                      <div class="media-list bb-1 bb-dashed border-light">
+                        <div class="media align-items-center">
+                          <a class="avatar avatar-lg status-success" href="#">
+                            <img src="{% static 'images/avatar/1.jpg' %}" class="bg-success-light" alt="...">
+                          </a>
+                          <div class="media-body">
+                            <p class="fs-16">
+                              <a class="hover-primary" href="#">Theron Trump</a>
+                            </p>
+                              <span class="text-muted">2 day ago</span>
+                          </div>
+                          <div class="media-right">
+                              <div class="d-flex">
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star-o"></i>
+                              </div>
+                          </div>
+                        </div>					
+                        <div class="media pt-0">
+                            <p class="text-fade">Vestibulum tincidunt sit amet sapien et eleifend. Fusce pretium libero enim, nec lacinia est ultrices id. Duis nibh sapien, ultrices in hendrerit ac, pulvinar ut mauris. Quisque eu condimentum justo. </p>
+                        </div>
+                      </div>
+                      <div class="media-list bb-1 bb-dashed border-light">
+                        <div class="media align-items-center">
+                          <a class="avatar avatar-lg status-success" href="#">
+                            <img src="{% static 'images/avatar/3.jpg' %}" class="bg-success-light" alt="...">
+                          </a>
+                          <div class="media-body">
+                            <p class="fs-16">
+                              <a class="hover-primary" href="#">Johen Doe</a>
+                            </p>
+                              <span class="text-muted">5 day ago</span>
+                          </div>
+                          <div class="media-right">
+                              <div class="d-flex">
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star-half-o"></i>
+                              </div>
+                          </div>
+                        </div>					
+                        <div class="media pt-0">
+                            <p class="text-fade">Praesent venenatis viverra turpis quis varius. Nullam ullamcorper congue urna, in sodales eros placerat non.</p>
+                        </div>
+                      </div>
+                      <div class="media-list">
+                        <div class="media align-items-center">
+                          <a class="avatar avatar-lg status-success" href="#">
+                            <img src="{% static 'images/avatar/4.jpg' %}" class="bg-success-light" alt="...">
+                          </a>
+                          <div class="media-body">
+                            <p class="fs-16">
+                              <a class="hover-primary" href="#">Tyler Mark</a>
+                            </p>
+                              <span class="text-muted">7 day ago</span>
+                          </div>
+                          <div class="media-right">
+                              <div class="d-flex">
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                              </div>
+                          </div>
+                        </div>					
+                        <div class="media pt-0">
+                            <p class="text-fade">Pellentesque a pretium orci. In hac habitasse platea dictumst. Nulla mattis odio enim, id euismod neque bibendum non.</p>
+                        </div>
+                      </div>
+                      <div class="media-list bb-1 bb-dashed border-light">
+                        <div class="media align-items-center">
+                          <a class="avatar avatar-lg status-success" href="#">
+                            <img src="{% static 'images/avatar/5.jpg' %}" class="bg-success-light" alt="...">
+                          </a>
+                          <div class="media-body">
+                            <p class="fs-16">
+                              <a class="hover-primary" href="#">Theron Trump</a>
+                            </p>
+                              <span class="text-muted">2 day ago</span>
+                          </div>
+                          <div class="media-right">
+                              <div class="d-flex">
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star-half-o"></i>
+                              </div>
+                          </div>
+                        </div>					
+                        <div class="media pt-0">
+                            <p class="text-fade">Curabitur condimentum molestie ligula iaculis euismod. Fusce nulla lectus, tincidunt eu consequat.</p>
+                        </div>
+                      </div>
+                      <div class="media-list bb-1 bb-dashed border-light">
+                        <div class="media align-items-center">
+                          <a class="avatar avatar-lg status-success" href="#">
+                            <img src="{% static 'images/avatar/6.jpg' %}" class="bg-success-light" alt="...">
+                          </a>
+                          <div class="media-body">
+                            <p class="fs-16">
+                              <a class="hover-primary" href="#">Johen Doe</a>
+                            </p>
+                              <span class="text-muted">5 day ago</span>
+                          </div>
+                          <div class="media-right">
+                              <div class="d-flex">
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star"></i>
+                                  <i class="text-warning fa fa-star-o"></i>
+                              </div>
+                          </div>
+                        </div>					
+                        <div class="media pt-0">
+                            <p class="text-fade">Proin lacinia eleifend nulla eu ornare. Integer commodo elit purus. Suspendisse mattis gravida interdum. In laoreet nisi eget felis ornare, tempus luctus nulla pellentesque. Donec maximus lobortis ullamcorper. </p>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <a href="#" class="waves-effect waves-light d-block w-p100 btn btn-primary">See More Reviews</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-12">
+            <div class="box">
+                <div class="box-header">
+                    <h4 class="box-title">Appointments</h4>
+                </div>
+                <div class="box-body">
+                    <div id="paginator1"></div>
+                </div>
+                <div class="box-body">
+                    <div class="inner-user-div4">
+                        <div>
+                            <div class="d-flex align-items-center mb-10">
+                                <div class="me-15">
+                                    <img src="{% static 'images/avatar/avatar-1.png' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
+                                </div>
+                                <div class="d-flex flex-column flex-grow-1 fw-500">
+                                    <p class="hover-primary text-fade mb-1 fs-14">Shawn Hampton</p>
+                                    <span class="text-dark fs-16">Emergency appointment</span>
+                                </div>
+                                <div>
+                                    <a href="#" class="waves-effect waves-circle btn btn-circle btn-primary-light btn-sm"><i class="fa fa-phone"></i></a>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end mb-15 py-10 bb-dashed border-bottom">
+                                <div>
+                                    <p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 10:00 <span class="mx-20">$ 30</span></p>
+                                </div>
+                                <div>
+                                    <div class="dropdown">
+                                        <a data-bs-toggle="dropdown" href="#" class="base-font mx-10"><i class="ti-more-alt text-muted"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                          <a class="dropdown-item" href="#"><i class="ti-import"></i> Import</a>
+                                          <a class="dropdown-item" href="#"><i class="ti-export"></i> Export</a>
+                                          <a class="dropdown-item" href="#"><i class="ti-printer"></i> Print</a>
+                                          <div class="dropdown-divider"></div>
+                                          <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center mb-10">
+                                <div class="me-15">
+                                    <img src="{% static 'images/avatar/avatar-2.png' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
+                                </div>
+                                <div class="d-flex flex-column flex-grow-1 fw-500">
+                                    <p class="hover-primary text-fade mb-1 fs-14">Polly Paul</p>
+                                    <span class="text-dark fs-16">USG + Consultation</span>
+                                </div>
+                                <div>
+                                    <a href="#" class="waves-effect waves-circle btn btn-circle btn-primary-light btn-sm"><i class="fa fa-phone"></i></a>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end mb-15 py-10 bb-dashed border-bottom">
+                                <div>
+                                    <p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 10:30 <span class="mx-20">$ 50</span></p>
+                                </div>
+                                <div>
+                                    <div class="dropdown">
+                                        <a data-bs-toggle="dropdown" href="#" class="base-font mx-10"><i class="ti-more-alt text-muted"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                          <a class="dropdown-item" href="#"><i class="ti-import"></i> Import</a>
+                                          <a class="dropdown-item" href="#"><i class="ti-export"></i> Export</a>
+                                          <a class="dropdown-item" href="#"><i class="ti-printer"></i> Print</a>
+                                          <div class="dropdown-divider"></div>
+                                          <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center mb-10">
+                                <div class="me-15">
+                                    <img src="{% static 'images/avatar/avatar-3.png' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
+                                </div>
+                                <div class="d-flex flex-column flex-grow-1 fw-500">
+                                    <p class="hover-primary text-fade mb-1 fs-14">Johen Doe</p>
+                                    <span class="text-dark fs-16">Laboratory screening</span>
+                                </div>
+                                <div>
+                                    <a href="#" class="waves-effect waves-circle btn btn-circle btn-primary-light btn-sm"><i class="fa fa-phone"></i></a>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end mb-15 py-10 bb-dashed border-bottom">
+                                <div>
+                                    <p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 11:00 <span class="mx-20">$ 70</span></p>
+                                </div>
+                                <div>
+                                    <div class="dropdown">
+                                        <a data-bs-toggle="dropdown" href="#" class="base-font mx-10"><i class="ti-more-alt text-muted"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                          <a class="dropdown-item" href="#"><i class="ti-import"></i> Import</a>
+                                          <a class="dropdown-item" href="#"><i class="ti-export"></i> Export</a>
+                                          <a class="dropdown-item" href="#"><i class="ti-printer"></i> Print</a>
+                                          <div class="dropdown-divider"></div>
+                                          <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center mb-10">
+                                <div class="me-15">
+                                    <img src="{% static 'images/avatar/avatar-4.png' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
+                                </div>
+                                <div class="d-flex flex-column flex-grow-1 fw-500">
+                                    <p class="hover-primary text-fade mb-1 fs-14">Harmani Doe</p>
+                                    <span class="text-dark fs-16">Keeping pregnant</span>
+                                </div>
+                                <div>
+                                    <a href="#" class="waves-effect waves-circle btn btn-circle btn-primary-light btn-sm"><i class="fa fa-phone"></i></a>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end mb-15 py-10 bb-dashed border-bottom">
+                                <div>
+                                    <p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 11:30 </p>
+                                </div>
+                                <div>
+                                    <div class="dropdown">
+                                        <a data-bs-toggle="dropdown" href="#" class="base-font mx-10"><i class="ti-more-alt text-muted"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                          <a class="dropdown-item" href="#"><i class="ti-import"></i> Import</a>
+                                          <a class="dropdown-item" href="#"><i class="ti-export"></i> Export</a>
+                                          <a class="dropdown-item" href="#"><i class="ti-printer"></i> Print</a>
+                                          <div class="dropdown-divider"></div>
+                                          <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center mb-10">
+                                <div class="me-15">
+                                    <img src="{% static 'images/avatar/avatar-5.png' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
+                                </div>
+                                <div class="d-flex flex-column flex-grow-1 fw-500">
+                                    <p class="hover-primary text-fade mb-1 fs-14">Mark Wood</p>
+                                    <span class="text-dark fs-16">Primary doctor consultation</span>
+                                </div>
+                                <div>
+                                    <a href="#" class="waves-effect waves-circle btn btn-circle btn-primary-light btn-sm"><i class="fa fa-phone"></i></a>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end mb-15 py-10 bb-dashed border-bottom">
+                                <div>
+                                    <p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 12:00 <span class="mx-20">$ 30</span></p>
+                                </div>
+                                <div>
+                                    <div class="dropdown">
+                                        <a data-bs-toggle="dropdown" href="#" class="base-font mx-10"><i class="ti-more-alt text-muted"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                          <a class="dropdown-item" href="#"><i class="ti-import"></i> Import</a>
+                                          <a class="dropdown-item" href="#"><i class="ti-export"></i> Export</a>
+                                          <a class="dropdown-item" href="#"><i class="ti-printer"></i> Print</a>
+                                          <div class="dropdown-divider"></div>
+                                          <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center mb-10">
+                                <div class="me-15">
+                                    <img src="{% static 'images/avatar/avatar-6.png' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
+                                </div>
+                                <div class="d-flex flex-column flex-grow-1 fw-500">
+                                    <p class="hover-primary text-fade mb-1 fs-14">Shawn Marsh</p>
+                                    <span class="text-dark fs-16">Emergency appointment</span>
+                                </div>
+                                <div>
+                                    <a href="#" class="waves-effect waves-circle btn btn-circle btn-primary-light btn-sm"><i class="fa fa-phone"></i></a>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end mb-15 py-10 bb-dashed border-bottom">
+                                <div>
+                                    <p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 13:00 <span class="mx-20">$ 90</span></p>
+                                </div>
+                                <div>
+                                    <div class="dropdown">
+                                        <a data-bs-toggle="dropdown" href="#" class="base-font mx-10"><i class="ti-more-alt text-muted"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                          <a class="dropdown-item" href="#"><i class="ti-import"></i> Import</a>
+                                          <a class="dropdown-item" href="#"><i class="ti-export"></i> Export</a>
+                                          <a class="dropdown-item" href="#"><i class="ti-printer"></i> Print</a>
+                                          <div class="dropdown-divider"></div>
+                                          <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box">		
+                <div class="box-header no-border">
+                    <h4 class="box-title">Doctors Abilities</h4>
+                </div>
+                <div class="box-body">	
+                    <div id="chart123"></div>
+                </div>																		
+            </div>					
+            <div class="box">		
+                <div class="box-header">
+                    <h4 class="box-title">Recovery rate</h4>
+                </div>
+                <div class="box-body">
+                    <div class="mb-30">
+                         <div class="d-flex align-items-center justify-content-between mb-5"><h5>80 %</h5><h5>Cold</h5></div>
+                         <div class="progress  progress-xs">
+                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                            </div>
+                         </div>
+                    </div>
+                    <div class="mb-30">
+                         <div class="d-flex align-items-center justify-content-between mb-5"><h5>24 %</h5><h5>Fracture</h5></div>
+                         <div class="progress  progress-xs">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="24" aria-valuemin="0" aria-valuemax="100" style="width: 24%">
+                            </div>
+                         </div>
+                    </div>
+                    <div>
+                         <div class="d-flex align-items-center justify-content-between mb-5"><h5>91 %</h5><h5>Ache</h5></div>
+                         <div class="progress  progress-xs">
+                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="91" aria-valuemin="0" aria-valuemax="100" style="width: 91%">
+                            </div>
+                         </div>
+                    </div>
+                    <div>
+                         <div class="d-flex align-items-center justify-content-between mb-5"><h5>50 %</h5><h5>Hematoma</h5></div>
+                         <div class="progress  progress-xs">
+                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+                            </div>
+                         </div>
+                    </div>
+                    <div>
+                         <div class="d-flex align-items-center justify-content-between mb-5"><h5>72 %</h5><h5>Caries</h5></div>
+                         <div class="progress  progress-xs">
+                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="width: 72%">
+                            </div>
+                         </div>
+                    </div>							
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- /.content -->
+
+
+{% endblock main-content %}
+
+{% block scripts %}
+
+<script src="{% static 'assets/vendor_components/apexcharts-bundle/dist/apexcharts.js' %}"></script>
+<script src="{% static 'assets/vendor_components/date-paginator/moment.min.js' %}"></script>
+<script src="{% static 'assets/vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static 'assets/vendor_components/date-paginator/bootstrap-datepaginator.min.js' %}"></script>
+
+{% endblock scripts %}

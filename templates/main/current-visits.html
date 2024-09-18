@@ -1,0 +1,81 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block main-content %}
+
+<!-- Content Header (Page header) -->	  
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h4 class="page-title">Current Patients</h4>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Current Patients</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        
+    </div>
+</div>
+  
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="table-responsive rounded card-table">
+                        <table class="table border-no" id="example1">
+                            <thead>
+                                <tr>
+                                    <th>Patient ID</th>
+                                    <th>Patient First Name</th>
+                                    <th>Patient Last Name</th>
+                                    <th>Patient Sector</th>
+                                    <th>Patient Cell</th>
+                                    <th>Status</th>
+                                    <th>Phone Number</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for current_patient in current_visits %}
+                                <tr class="hover-primary">
+                                    <td>#{{current_patient.id}}</td>
+                                    <td>{{current_patient.patient.first_name}}</td>
+                                    <td>{{current_patient.patient.last_name}}</td>
+                                    <td>{{current_patient.community_work.first_name}}</td>
+                                    <td>{{current_patient.date}}</td>
+                                    <td><span class="badge badge-danger-light">{{current_patient.is_transferred}}</span></td>
+                                    <td>{{current_patient.diagnize_classification}}</td>
+                                    <td>												
+                                        <div class="btn-group">
+                                          <a class="hover-primary dropdown-toggle no-caret" data-bs-toggle="dropdown"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                                          <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="{% url 'current-visit-detail' current_patient.id %}"><i class="glyphicon glyphicon-eye-open"></i>View Details</a>
+                                            
+                                          </div>
+                                        </div>
+                                    </td>
+                                </tr>	
+                              {% endfor %}									
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>			
+</section>
+<!-- /.content -->
+
+
+{% endblock main-content %}
+
+{% block scripts %}
+
+<script src="{% static 'assets/vendor_components/datatable/datatables.min.js' %}"></script>
+{% endblock scripts %}

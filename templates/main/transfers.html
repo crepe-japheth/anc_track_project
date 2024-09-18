@@ -1,0 +1,81 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block main-content %}
+
+<!-- Content Header (Page header) -->	  
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h4 class="page-title">Patients Transfered</h4>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Patients Transfered</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        
+    </div>
+</div>
+  
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="table-responsive rounded card-table">
+                        <table class="table border-no" id="example1">
+                            <thead>
+                                <tr>
+                                    <th>Patient ID</th>
+                                    <th>Patient First Name</th>
+                                    <th>Patient Last Name</th>
+                                    <th>Transfer From</th>
+                                    <th>Transfer Date</th>
+                                    <th>Transfer Arrival</th>
+                                    <th>Phone Number</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for patient_transfed in patients_transfered %}
+                                <tr class="hover-primary">
+                                    <td>#{{patient_transfed.id}}</td>
+                                    <td>{{patient_transfed.visit.patient.first_name}}</td>
+                                    <td>{{patient_transfed.visit.patient.last_name}}</td>
+                                    <td>{{patient_transfed.from_health_facility.name}}</td>
+                                    <td>{{patient_transfed.to_hospital.name}}</td>
+                                    <td><span class="badge badge-danger-light">New Patient</span></td>
+                                    <td>{{patient_transfed.delay_in_hours}}</td>
+                                    <td>												
+                                        <div class="btn-group">
+                                          <a class="hover-primary dropdown-toggle no-caret" data-bs-toggle="dropdown"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                                          <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#"><i class="glyphicon glyphicon-eye-open"></i>View Details</a>
+                                            <a class="dropdown-item" href="#"><i class="glyphicon glyphicon-pencil"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i class="glyphicon glyphicon-remove-sign"></i>Delete</a>
+                                          </div>
+                                        </div>
+                                    </td>
+                                </tr>	
+                              {% endfor %}									
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>			
+</section>
+<!-- /.content -->
+
+{% endblock main-content %}
+
+{% block scripts %}
+
+<script src="{% static 'assets/vendor_components/datatable/datatables.min.js' %}"></script>
+{% endblock scripts %}

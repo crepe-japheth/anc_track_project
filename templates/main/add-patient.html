@@ -1,0 +1,135 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block main-content %}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h4 class="page-title">General Form Elements</h4>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item" aria-current="page">Forms</li>
+                        <li class="breadcrumb-item active" aria-current="page">General Form Elements</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        
+    </div>
+</div>	  
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">			  
+        <div class="col-lg-12 col-12">
+              <div class="box">
+                <div class="box-header with-border">
+                  <h4 class="box-title">Patient Record Form</h4>
+                </div>
+                <!-- /.box-header -->
+                <form class="form" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  {% if form.errors %}
+                      <div class="alert alert-danger">
+                          <ul>
+                              {% for field, errors in form.errors.items %}
+                                  <li>{{ field }}: {{ errors }}</li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  {% endif %}
+                    <div class="box-body">
+                        <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> Personal Info</h4>
+                        <hr class="my-15">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="form-label">First Name</label>
+                              {{form.first_name}}
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="form-label">Last Name</label>
+                              {{form.last_name}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="form-label">Middle Name</label>
+                              {{form.middle_name}}
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="form-label">Contact Number</label>
+                              {{form.phone_number}}
+                            </div>
+                          </div>
+                        </div>
+                        <h4 class="box-title text-info mb-0 mt-20"><i class="ti-save me-15"></i> More Info</h4>
+                        <hr class="my-15">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="form-label">District</label>
+                              {{form.district}}
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="form-label">Sector</label>
+                              {{form.sector}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="form-label">Cell</label>
+                              {{form.cell}}
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="form-label">Village</label>
+                              {{form.village}}
+                            </div>
+                          </div>
+                        </div>
+                        <h4 class="box-title text-info mb-0 mt-20"><i class="ti-save me-15"></i>Health Center Info</h4>
+                        <hr class="my-15">
+                        <div class="form-group">
+                          <label class="form-label">ID or Passport</label>
+                          {{form.identity}}
+                        </div>
+                        <div class="form-group">
+                          <label class="form-label">Profile Picture</label>
+                          {{form.profile_pic}}
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-warning me-1">
+                          <i class="ti-trash"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                          <i class="ti-save-alt"></i> Save
+                        </button>
+                    </div>  
+                </form>
+              </div>
+              <!-- /.box -->			
+        </div>  
+    </div>
+
+</section>
+<!-- /.content -->
+
+{% endblock main-content %}
