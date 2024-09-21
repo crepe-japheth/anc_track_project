@@ -3,7 +3,7 @@ from decouple import config
 
 def send_sms(phone_number, message):
 
-    account_sid = 'ACb1e7649a92976b14a6be08d2251fc6cf'
+    account_sid = config("ACCOUNT_SID")
     auth_token = config('AUTH_TOKEN')
     client = Client(account_sid, auth_token)
 
