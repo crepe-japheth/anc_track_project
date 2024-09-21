@@ -38,6 +38,15 @@
 							<div class="p-40">
 								<form method="post">
 									{% csrf_token %}
+									{% if form.errors %}
+										<div class="alert alert-danger">
+											<ul>
+												{% for field, errors in form.errors.items %}
+													<li>{{ field }}: {{ errors }}</li>
+												{% endfor %}
+											</ul>
+										</div>
+									{% endif %}
 									<div class="form-group">
 										<div class="input-group mb-3">
 											<span class="input-group-text bg-transparent"><i class="ti-user"></i></span>

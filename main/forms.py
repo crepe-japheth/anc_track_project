@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from location.models import Sector, Cell, Village
 from django.urls import reverse_lazy
+from django.forms import inlineformset_factory
 
 
 
@@ -49,7 +50,7 @@ class PatientForm(forms.ModelForm):
 
     class Meta:
         model = Patient
-        fields = ["first_name", "middle_name", "last_name", "district", "sector", "cell", "village", "phone_number", "identity","profile_pic"]
+        fields = ["first_name", "middle_name", "last_name", "district", "sector", "cell", "village", "phone_number", "identity","profile_pic", "email"]
 
         widgets = {
             "first_name": forms.TextInput(
@@ -82,6 +83,9 @@ class PatientForm(forms.ModelForm):
             "profile_pic": forms.FileInput(
                 attrs={"class":"form-control"},
             ),
+            "email": forms.EmailInput(
+                attrs={"class":"form-control"},
+            ),
             
         }
 
@@ -106,7 +110,7 @@ class VisitForm(forms.ModelForm):
 
     class Meta:
         model = Visit
-        fields = ['patient', 'disease','community_work', 'weight', 'bmi', 'health_facility']
+        fields = ['patient', 'disease','community_work', 'weight', 'bmi', 'health_facility', 'diagnize_classification']
 
         widgets = {
             "patient": forms.Select(
@@ -115,10 +119,10 @@ class VisitForm(forms.ModelForm):
             "disease": forms.TextInput(
                 attrs={"class":"form-control", "placeholder":"Disease"},
             ),
-            "weight": forms.TextInput(
+            "weight": forms.NumberInput(
                 attrs={"class":"form-control", "placeholder":"Weight"},
             ),
-            "bmi": forms.TextInput(
+            "bmi": forms.NumberInput(
                 attrs={"class":"form-control", "placeholder":"BMI"},
             ),
             "community_work": forms.Select(
@@ -127,14 +131,21 @@ class VisitForm(forms.ModelForm):
             "health_facility": forms.Select(
                 attrs={"class": "form-control select2"},
             ),
+            "diagnize_classification": forms.Select(
+                attrs={"class": "form-control select2"},
+            ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['health_facility'].queryset = HealthFacility.objects.filter(status='health_center')
 
 
 class CommunityWorkForm(forms.ModelForm):
 
     class Meta:
         model = CommunityWork
-        fields = ["first_name", "middle_name", "last_name", "district", "sector", "cell", "village", "phone_number", "health_facility"]
+        fields = ["first_name", "middle_name", "last_name", "district", "sector", "cell", "village", "phone_number", "health_facility", "email"]
 
         widgets = {
             "first_name": forms.TextInput(
@@ -164,6 +175,9 @@ class CommunityWorkForm(forms.ModelForm):
             
             "health_facility": forms.Select(
                 attrs={"class": "form-control select2"},
+            ),
+            "email": forms.EmailInput(
+                attrs={"class": "form-control"},
             ),
         }
     
@@ -173,12 +187,22 @@ class CommunityWorkForm(forms.ModelForm):
         self.fields['cell'].queryset = Cell.objects.none()
         self.fields['village'].queryset = Village.objects.none()
 
+        if 'district' in self.data:
+            district_id = int(self.data.get("district"))
+            self.fields['sector'].queryset = Sector.objects.filter(district=district_id)
+        if 'sector' in self.data:
+            sector_id = int(self.data.get("sector"))
+            self.fields['cell'].queryset = Cell.objects.filter(sector=sector_id)
+        if 'cell' in self.data:
+            cell_id = int(self.data.get("cell"))
+            self.fields['village'].queryset = Village.objects.filter(cell=cell_id)
+
 
 class DoctorForm(forms.ModelForm):
 
     class Meta:
         model = Doctor
-        fields = ["first_name", "middle_name", "last_name", "district", "sector", "cell", "village", "phone_number", "health_facility"]
+        fields = ["first_name", "middle_name", "last_name", "district", "sector", "cell", "village", "phone_number", "health_facility", "profile_pic"]
 
         widgets = {
             "first_name": forms.TextInput(
@@ -209,6 +233,9 @@ class DoctorForm(forms.ModelForm):
             "health_facility": forms.Select(
                 attrs={"class": "form-control select2"},
             ),
+            "profile_pic": forms.FileInput(
+                attrs={"class": "form-control"},
+            ),
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -216,12 +243,22 @@ class DoctorForm(forms.ModelForm):
         self.fields['cell'].queryset = Cell.objects.none()
         self.fields['village'].queryset = Village.objects.none()
 
+        if 'district' in self.data:
+            district_id = int(self.data.get("district"))
+            self.fields['sector'].queryset = Sector.objects.filter(district=district_id)
+        if 'sector' in self.data:
+            sector_id = int(self.data.get("sector"))
+            self.fields['cell'].queryset = Cell.objects.filter(sector=sector_id)
+        if 'cell' in self.data:
+            cell_id = int(self.data.get("cell"))
+            self.fields['village'].queryset = Village.objects.filter(cell=cell_id)
+
 
 class HealthFacilityForm(forms.ModelForm):
 
     class Meta:
         model = HealthFacility
-        fields = ["name", "district", "sector", "cell", "village", "director", "phone_number", "status"]
+        fields = ["name", "district", "sector", "cell", "village", "director", "phone_number", "status", 'email']
 
         widgets = {
             "name": forms.TextInput(
@@ -249,6 +286,9 @@ class HealthFacilityForm(forms.ModelForm):
             "status": forms.Select(
                 attrs={"class": "form-control select2"},
             ),
+            "email": forms.EmailInput(
+                attrs={"class": "form-control"},
+            ),
         }
     
     def __init__(self, *args, **kwargs):
@@ -257,12 +297,22 @@ class HealthFacilityForm(forms.ModelForm):
         self.fields['cell'].queryset = Cell.objects.none()
         self.fields['village'].queryset = Village.objects.none()
 
+        if 'district' in self.data:
+            district_id = int(self.data.get("district"))
+            self.fields['sector'].queryset = Sector.objects.filter(district=district_id)
+        if 'sector' in self.data:
+            sector_id = int(self.data.get("sector"))
+            self.fields['cell'].queryset = Cell.objects.filter(sector=sector_id)
+        if 'cell' in self.data:
+            cell_id = int(self.data.get("cell"))
+            self.fields['village'].queryset = Village.objects.filter(cell=cell_id)
+
 
 class AppointmentForm(forms.ModelForm):
 
     class Meta:
         model = Appointment
-        fields = ["appointment_date", "appointment_time"]
+        fields = ["appointment_date", "appointment_time", "arrived_at"]
 
         widgets = {
             "appointment_date": forms.DateInput(
@@ -270,6 +320,17 @@ class AppointmentForm(forms.ModelForm):
             ),
             "appointment_time": forms.TimeInput(
                 attrs={"class":"form-control"},
+            ),
+            "arrived_at": forms.TimeInput(
+                attrs={"class":"form-control"},
             )
         }
 
+
+
+AppointmentFormSet = inlineformset_factory(
+    Visit, Appointment,
+    form=AppointmentForm,  # Use the custom form with widgets
+    extra=1,
+    can_delete=True
+)

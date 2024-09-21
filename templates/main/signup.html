@@ -33,6 +33,15 @@
                 <!-- /.box-header -->
                 <form class="form" method="post">
                   {% csrf_token %}
+                  {% if form.errors %}
+                      <div class="alert alert-danger">
+                          <ul>
+                              {% for field, errors in form.errors.items %}
+                                  <li>{{ field }}: {{ errors }}</li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  {% endif %}
                     <div class="box-body">
                         <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> Personal Info</h4>
                         <hr class="my-15">
@@ -80,26 +89,6 @@
                             </div>
                           </div>
                         </div>
-                        {% comment %} <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label class="form-label">Cell</label>
-                              {{form.cell}}
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label class="form-label">Village</label>
-                              {{form.village}}
-                            </div>
-                          </div>
-                        </div>
-                        <h4 class="box-title text-info mb-0 mt-20"><i class="ti-save me-15"></i>Health Center Info</h4>
-                        <hr class="my-15">
-                        <div class="form-group">
-                          <label class="form-label">Health Center Reception</label>
-                          {{form.health_facility}}
-                        </div> {% endcomment %}
                         
                     </div>
                     <!-- /.box-body -->

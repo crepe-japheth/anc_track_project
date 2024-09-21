@@ -30,7 +30,7 @@
                 <a href="javascript:void(0);" class="btn btn-primary me-5 mb-md-0 mb-5"><i class="fa fa-edit"></i> Edit Profile</a>
                 <div class="d-flex">
                     <a href="javascript:void(0);" class="btn btn-outline btn-danger me-5"><i class="fa fa-times-circle-o"></i> Delete Patient</a>
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal-right"><i class="glyphicon glyphicon-header" ></i> Transfer Patient</button>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal-right"><i class="glyphicon glyphicon-header" ></i> create Visit</button>
                 </div>
             </div>
             <div class="box">
@@ -238,24 +238,40 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Transfer Patient</h5>
+          <h5 class="modal-title">Add Patient Visit</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form method='post'>
             {% csrf_token %}
             <div class="modal-body">
-            <div class="form-group">
-                <label class="form-label">Select Health Facility To Transfer.</label>
-                <select class="form-select" name="hospital">
-                    {% for hospital in hospitals %}
-                    <option value="{{hospital.id}}">{{hospital.name}}</option>
-                    {% endfor %}
-                </select>
-            </div>
+                <div class="form-group">
+                    <label class="form-label">Select Health Facility.</label>
+                    {{form.health_facility}}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Select Community Worker.</label>
+                    {{form.community_work}}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">BMI.</label>
+                    {{form.bmi}}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Weight.</label>
+                    {{form.weight}}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Disease.</label>
+                    {{form.disease}}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Diagonized Class</label>
+                    {{form.diagnize_classification}}
+                </div>
             </div>
             <div class="modal-footer modal-footer-uniform">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary float-end">Transfer</button>
+            <button type="submit" class="btn btn-primary float-end">Create Visit</button>
             </div>
         </form>
       </div>
@@ -273,3 +289,5 @@
 <script src="{% static 'assets/vendor_components/date-paginator/bootstrap-datepaginator.min.js' %}"></script>
 
 {% endblock scripts %}
+
+

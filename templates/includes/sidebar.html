@@ -64,10 +64,11 @@
 					  </span>
 					</a>
 					<ul class="treeview-menu">
-					  <li><a href="{% url 'add-community-worker' %}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>All Community Workers</a></li>
-					  <li><a href="{% url 'community-workers' %}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Create Community Worker</a></li>
+						<li><a href="{% url 'community-workers' %}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>All Community Workers</a></li>
+						<li><a href="{% url 'add-community-worker' %}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span>Create Community Worker</i></a></li>
 					</ul>
-				</li>							 	     
+				</li>	
+				{% if request.user.role == 'ADMIN' or request.user.is_superuser %}						 	     
 				<li class="treeview">
 					<a href="#">
 					  <i data-feather="users"></i>
@@ -80,7 +81,8 @@
 					  <li><a href="{% url 'health-facilities' %}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>All Health Facilities</a></li>
 					  <li><a href="{% url 'add-health-facility' %}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Create Health Facility</a></li>
 					</ul>
-				</li>							 	     
+				</li>	
+				{% endif %}						 	     
 				<li class="treeview">
 					<a href="#">
 					  <i data-feather="lock"></i>
@@ -90,7 +92,7 @@
 					  </span>
 					</a>
 					<ul class="treeview-menu">
-					  <li><a href="#"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>All User Facilities</a></li>
+					  <li><a href="{% url 'users' %}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>All User Facilities</a></li>
 					  <li><a href="{% url 'signup' %}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Create User</a></li>
 					</ul>
 				</li>							 	     

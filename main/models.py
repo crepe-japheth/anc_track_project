@@ -4,6 +4,7 @@ from django.core.validators import RegexValidator
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.utils import timezone
 from location.models import District, Sector, Cell, Village
+from django.urls import reverse
 
 
 
@@ -20,9 +21,15 @@ class Patient(models.Model):
     phone_number = models.CharField(validators=[phone_regex], max_length=13, blank=True)
     identity = models.CharField(max_length=16, unique=True, null=True)
     profile_pic = models.ImageField(null=True, blank=True, upload_to='profile_pictures/')
+    health_facility = models.ForeignKey("HealthFacility", on_delete=models.SET_NULL, null=True, blank=True)
+    email = models.EmailField(null=True, blank=False)
 
     def get_all_visits(self):
         return self.visits.all()
+    
+
+    def get_absolute_url(self):
+        return reverse("patient-detail", kwargs={"pk": self.pk})
     
 
     def __str__(self):
@@ -40,7 +47,7 @@ class Visit(models.Model):
         ('red', 'Red'),
         ('orange', 'Orange'),
     ]
-    patient = models.ForeignKey(Patient, related_name='visits', on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, related_name='visits', on_delete=models.CASCADE, null=True, blank=True)
     community_work = models.ForeignKey("CommunityWork", on_delete=models.SET_NULL, null=True)
     health_facility = models.ForeignKey("HealthFacility", on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(auto_now_add=True)
@@ -48,8 +55,8 @@ class Visit(models.Model):
     weight = models.DecimalField(max_digits=5, decimal_places=2)
     bmi = models.DecimalField(max_digits=5, decimal_places=2)
     diagnize_classification = models.CharField(max_length=10, choices=DIAGNIZE_CLASS)
-    is_transferred = models.BooleanField(default=False)  # If the patient was transferred to a hospital
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')  # Status of the visit
+    is_transferred = models.BooleanField(default=False) 
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')  
 
 
     def __str__(self):
@@ -61,17 +68,11 @@ class Transfer(models.Model):
     from_health_facility = models.ForeignKey("HealthFacility", on_delete=models.CASCADE, related_name="outgoing_transfers")
     to_hospital = models.ForeignKey("HealthFacility", on_delete=models.CASCADE, related_name="incoming_transfers")
     transfer_date = models.DateTimeField(auto_now_add=True)
-    patient_arrived_at = models.DateTimeField(null=True, blank=True)  # When patient actually arrived at the hospital
-    delay_in_hours = models.PositiveIntegerField(null=True, blank=True)  # Auto-calculated from transfer to arrival
+    patient_arrived_at = models.DateTimeField(null=True, blank=True) 
+    delay_in_hours = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"Transfer of {self.visit.patient} to {self.to_hospital.name}"
-
-    # def calculate_delay(self):
-    #     if self.patient_arrived_at:
-    #         delay = (self.patient_arrived_at - self.transfer_date).total_seconds() / 3600
-    #         self.delay_in_hours = round(delay, 2)
-    #         self.save()
 
     def calculate_delay(self):
         if self.patient_arrived_at:
@@ -111,11 +112,12 @@ class HealthFacility(models.Model):
     sector = models.ForeignKey(Sector, on_delete=models.CASCADE, null=True, blank=False)
     cell = models.ForeignKey(Cell, on_delete=models.CASCADE, null=True, blank=False)
     village = models.ForeignKey(Village, on_delete=models.CASCADE, null=True, blank=False)
-    director = models.CharField(max_length=255, null=False, blank=False)
+    director = models.CharField(max_length=255, null=True, blank=True)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{10,13}$', message="Phone number must be entered in the format: '+999999999'. Up to 13 digits allowed.")
     phone_number = models.CharField(validators=[phone_regex], max_length=13, blank=True)
     status = models.CharField(max_length=25, choices=HEALTH_FACILITY_STATUS, null=False, blank=False)
     profile_pic = models.ImageField(null=True, blank=True, upload_to='profile_pictures/')
+    email = models.EmailField(null=True, blank=False)
 
 
     def __str__(self) -> str:
@@ -124,7 +126,7 @@ class HealthFacility(models.Model):
 
 class Doctor(models.Model):
     first_name = models.CharField(max_length=255, null=False, blank=False)
-    middle_name = models.CharField(max_length=255, null=False, blank=False)
+    middle_name = models.CharField(max_length=255, null=True, blank=True)
     last_name = models.CharField(max_length=255, null=False, blank=False)
     district = models.ForeignKey(District, on_delete=models.CASCADE, null=True, blank=False)
     sector = models.ForeignKey(Sector, on_delete=models.CASCADE, null=True, blank=False)
@@ -142,7 +144,7 @@ class Doctor(models.Model):
 
 class CommunityWork(models.Model):
     first_name = models.CharField(max_length=255, null=False, blank=False)
-    middle_name = models.CharField(max_length=255, null=False, blank=False)
+    middle_name = models.CharField(max_length=255, null=True, blank=True)
     last_name = models.CharField(max_length=255, null=False, blank=False)
     district = models.ForeignKey(District, on_delete=models.CASCADE, null=True, blank=False)
     sector = models.ForeignKey(Sector, on_delete=models.CASCADE, null=True, blank=False)
@@ -152,6 +154,7 @@ class CommunityWork(models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{10,13}$', message="Phone number must be entered in the format: '+999999999'. Up to 13 digits allowed.")
     phone_number = models.CharField(validators=[phone_regex], max_length=13, blank=True)
     profile_pic = models.ImageField(null=True, blank=True, upload_to='profile_pictures/')
+    email = models.EmailField(null=True, blank=False)
 
 
 

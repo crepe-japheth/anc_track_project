@@ -49,7 +49,11 @@
                                     <td>{{current_patient.patient.last_name}}</td>
                                     <td>{{current_patient.community_work.first_name}}</td>
                                     <td>{{current_patient.date}}</td>
-                                    <td><span class="badge badge-danger-light">{{current_patient.is_transferred}}</span></td>
+                                    {% if current_patient.is_transferred %}
+                                        <td><span class="badge badge-danger-light">Transfered</span></td>
+                                    {% else %}
+                                         <td><span class="badge badge-primary-light">Not Transfered</span></td>
+                                    {% endif %}
                                     <td>{{current_patient.diagnize_classification}}</td>
                                     <td>												
                                         <div class="btn-group">

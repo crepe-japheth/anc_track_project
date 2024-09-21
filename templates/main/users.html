@@ -7,12 +7,12 @@
 <div class="content-header">
     <div class="d-flex align-items-center">
         <div class="me-auto">
-            <h4 class="page-title">Patients Transfered</h4>
+            <h4 class="page-title">System Users</h4>
             <div class="d-inline-block align-items-center">
                 <nav>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Patients Transfered</li>
+                        <li class="breadcrumb-item active" aria-current="page">Users</li>
                     </ol>
                 </nav>
             </div>
@@ -31,38 +31,26 @@
                         <table class="table border-no" id="example1">
                             <thead>
                                 <tr>
-                                    <th>Patient ID</th>
-                                    <th>Patient First Name</th>
-                                    <th>Patient Last Name</th>
-                                    <th>Transfer From</th>
-                                    <th>Transfer To</th>
-                                    <th>Transfer Date</th>
-                                    <th>Transfer Arrival</th>
-                                    <th>Delay Time</th>
+                                    <th>User ID</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                              {% for patient_transfed in patients_transfered %}
+                              {% for user in users %}
                                 <tr class="hover-primary">
-                                    <td>#{{patient_transfed.id}}</td>
-                                    <td>{{patient_transfed.visit.patient.first_name}}</td>
-                                    <td>{{patient_transfed.visit.patient.last_name}}</td>
-                                    <td>{{patient_transfed.from_health_facility.name}}</td>
-                                    <td>{{patient_transfed.to_hospital.name}}</td>
-                                    <td>{{patient_transfed.transfer_date}}</td>
-                                    {% if patient_transfed.patient_arrived_at %}
-                                    <td><span class="badge badge-success-light">Arrived</span></td>
-                                    {% else %}
-                                    <td><span class="badge badge-danger-light">Not Yet</span></td>
-                                    {% endif %}
-                                    <td>{{patient_transfed.delay_in_hours}}</td>
+                                    <td>#{{user.id}}</td>
+                                    <td>{{user.username}}</td>
+                                    <td>{{user.email}}</td>
+                                    <td><span class="badge badge-danger-light">{{user.role}}</span></td>
                                     <td>												
                                         <div class="btn-group">
                                           <a class="hover-primary dropdown-toggle no-caret" data-bs-toggle="dropdown"><i class="glyphicon glyphicon-chevron-down"></i></a>
                                           <div class="dropdown-menu">
-                                              <a class="dropdown-item" href="{% url 'confirm_arrival' patient_transfed.pk %}"><i class="glyphicon glyphicon-pencil"></i>Confirm Arrival</a>
-                                            <a class="dropdown-item" href="#"><i class="glyphicon glyphicon-eye-open"></i>View Details</a>
+                                            <a class="dropdown-item" href="#"><i class="glyphicon glyphicon-pencil"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i class="glyphicon glyphicon-remove-sign"></i>Delete</a>
                                           </div>
                                         </div>
                                     </td>

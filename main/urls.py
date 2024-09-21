@@ -23,6 +23,9 @@ urlpatterns = [
     path('current-visits/', views.CurrentVisit.as_view(), name='current-visits'),
     path('current-visit-detail/<int:pk>/', views.CurrentVisitDetail.as_view(), name='current-visit-detail'),
     path('signup/', views.SignUpView.as_view(), name='signup'),
+    path('users/', views.UserListView.as_view(), name='users'),
+    path('visit/<int:visit_id>/manage-appointments/', views.manage_appointments, name='manage_appointments'),
+    path('confirm_arrival/<int:pk>/', views.confirm_arrival, name='confirm_arrival'),
 
     path("change_password/", views.ChangePasswordView.as_view(), name="change_password"),
     # path('create_user/', create_user, name='create_user'),

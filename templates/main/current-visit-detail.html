@@ -27,7 +27,7 @@
     <div class="row">
         <div class="col-xl-8 col-12">
             <div class="d-md-flex align-items-center justify-content-between mb-20">						
-                <a href="javascript:void(0);" class="btn btn-primary me-5 mb-md-0 mb-5"><i class="fa fa-edit"></i> Edit Profile</a>
+                <a href="{% url 'manage_appointments' visit.id %}" class="btn btn-primary me-5 mb-md-0 mb-5"><i class="fa fa-edit"></i>Manage Appointments</a>
                 <div class="d-flex">
                     <a href="javascript:void(0);" class="btn btn-outline btn-danger me-5"><i class="fa fa-times-circle-o"></i> {{visit.diagnize_classification}}</a>
                     {% if visit.is_transferred %}
@@ -148,7 +148,7 @@
             </div>
             <div class="box">
                 <div class="box-header">
-                  <h4 class="box-title">Current Vitals</h4>
+                  <h4 class="box-title">Current Visit</h4>
                   <div class="box-controls pull-right">
                     <div class="lookup lookup-circle lookup-right">
                       <input type="text" name="s" placeholder="Patients id">
