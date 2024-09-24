@@ -1,7 +1,20 @@
 {% extends "main/base.html" %}
 {% load static %}
 {% block main-content %}
+<script>
+	var chartData = [
+	{
+		"labels": {{ visit_chart_data.0.labels|safe }},
+		"counts": {{ visit_chart_data.0.counts|safe }}
+	},
+	{
+		"labels": {{ visit_chart_data.1.labels|safe }},
+		"counts": {{ visit_chart_data.1.counts|safe }}
+	}
+];
+console.log(chartData); 
 
+</script>
 <div class="content-header">
 	<div class="d-flex align-items-center">
 		<div class="me-auto">
@@ -12,6 +25,40 @@
 <!-- Main content -->
 <section class="content">
 	<div class="row">
+		<div class="col-xl-4 col-12">
+			<div class="box box-body">
+			  <h6 class="text-uppercase">Total Patient</h6>
+			  <div class="flexbox mt-2">
+				<span class="icon-Heart text-danger fs-40"></span>
+				<span class=" fs-30">{{total_patient}}</span>
+			  </div>
+			</div>
+		</div>
+		<!-- /.col -->
+
+		<div class="col-xl-4 col-12">
+			<div class="box box-body bg-success">
+			  <h6 class="text-uppercase">Total Transfer</h6>
+			  <div class="flexbox mt-2">
+				<span class=" fs-30">{{total_transfer}}</span>
+				<span class="icon-Like fs-40"><span class="path1"></span><span class="path2"></span></span>
+			  </div>
+			</div>
+		</div>
+		<!-- /.col -->
+		<div class="col-xl-4 col-12">
+			<div class="box box-body bg-info">
+			  <h6 class="text-uppercase">Today Patient</h6>
+			  <div class="flexbox mt-2">
+				<span class="icon-Group-chat fs-40"><span class="path1"></span><span class="path2"></span></span>
+				<span class=" fs-30">{{today_patient}}</span>
+			  </div>
+			</div>
+		</div>
+		<!-- /.col -->
+	  </div>
+	  <!-- /.row -->
+	<div class="row">
 		<div class="col-xl-8 col-12">					
 			<div class="row">
 				<div class="col-xl-6 col-12">						
@@ -19,16 +66,29 @@
 						<div class="box-header">
 							<h4 class="box-title">Recent Transfer</h4>
 						</div>
+						{% if recent_transfers %}
+						
 						<div class="box-body">	
-							<div class="news-slider owl-carousel owl-sl">	
+							<div class="news-slider owl-carousel owl-sl">
+								{% for recent_transfer in recent_transfers %}	
 								<div>
 									<div class="d-flex align-items-center mb-10">
+										
 										<div class="me-15">
-											<img src="{% static 'images/avatar/1.jpg' %}" class="w-auto avatar avatar-lg rounded10 bg-primary-light" alt="" />
+											{% if recent_transfer.visit.patient.profile_pic %}
+											<img src="{{recent_transfer.visit.patient.profile_pic.url}}" class="w-auto avatar avatar-lg rounded10 bg-primary-light" alt="" />
+											{% else %}
+											<img src="{% static 'images/user.png' %}" class="w-auto avatar avatar-lg rounded10 bg-primary-light" alt="" />
+											{% endif %}
 										</div>
+										
 										<div class="d-flex flex-column flex-grow-1 fw-500">
-											<p class="hover-primary text-fade mb-1 fs-14">Shawn Hampton</p>
-											<span class="text-dark fs-16">Emergency appointment</span>
+											<p class="hover-primary text-fade mb-1 fs-14">{{recent_transfer.visit.patient.first_name}} {{recent_transfer.visit.patient.last_name}}</p>
+											{% if request.user.role == 'HOSPITAL' %}
+											<span class="text-dark fs-16">From: {{recent_transfer.from_health_facility}}</span>
+											{% else %}
+											<span class="text-dark fs-16">to: {{recent_transfer.to_hospital}}</span>
+											{% endif %}
 										</div>
 										<div>
 											<a href="#" class="waves-effect waves-circle btn btn-circle btn-primary-light btn-sm mx-15"><i class="fa fa-phone"></i></a>
@@ -36,86 +96,18 @@
 									</div>
 									<div class="d-flex justify-content-between align-items-end mt-40 py-10 bt-dashed border-top">
 										<div>
-											<p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 10:00 <span class="mx-20">$ 30</span></p>
-										</div>
-										<div>
-											<div class="dropdown">
-												<a data-bs-toggle="dropdown" href="#" class="base-font mx-30"><i class="ti-more-alt text-muted"></i></a>
-												<div class="dropdown-menu dropdown-menu-end">
-												  <a class="dropdown-item" href="#"><i class="ti-import"></i> Import</a>
-												  <a class="dropdown-item" href="#"><i class="ti-export"></i> Export</a>
-												  <a class="dropdown-item" href="#"><i class="ti-printer"></i> Print</a>
-												  <div class="dropdown-divider"></div>
-												  <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
-												</div>
-											</div>
+											<p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> {{recent_transfer.transfer_date}} <span class="mx-20"></span></p>
 										</div>
 									</div>
 								</div>
-								<div>
-									<div class="d-flex align-items-center mb-10">
-										<div class="me-15">
-											<img src="{% static 'images/avatar/2.jpg' %}" class="w-auto avatar avatar-lg rounded10 bg-primary-light" alt="" />
-										</div>
-										<div class="d-flex flex-column flex-grow-1 fw-500">
-											<p class="hover-primary text-fade mb-1 fs-14">Polly Paul</p>
-											<span class="text-dark fs-16">USG + Consultation</span>
-										</div>
-										<div>
-											<a href="#" class="waves-effect waves-circle btn btn-circle btn-primary-light btn-sm mx-15"><i class="fa fa-phone"></i></a>
-										</div>
-									</div>
-									<div class="d-flex justify-content-between align-items-end mt-40 py-10 bt-dashed border-top">
-										<div>
-											<p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 10:30 <span class="mx-20">$ 50</span></p>
-										</div>
-										<div>
-											<div class="dropdown">
-												<a data-bs-toggle="dropdown" href="#" class="base-font mx-30"><i class="ti-more-alt text-muted"></i></a>
-												<div class="dropdown-menu dropdown-menu-end">
-												  <a class="dropdown-item" href="#"><i class="ti-import"></i> Import</a>
-												  <a class="dropdown-item" href="#"><i class="ti-export"></i> Export</a>
-												  <a class="dropdown-item" href="#"><i class="ti-printer"></i> Print</a>
-												  <div class="dropdown-divider"></div>
-												  <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div>
-									<div class="d-flex align-items-center mb-10">
-										<div class="me-15">
-											<img src="{% static 'images/avatar/3.jpg' %}" class="w-auto avatar avatar-lg rounded10 bg-primary-light" alt="" />
-										</div>
-										<div class="d-flex flex-column flex-grow-1 fw-500">
-											<p class="hover-primary text-fade mb-1 fs-14">Johen Doe</p>
-											<span class="text-dark fs-16">Laboratory screening</span>
-										</div>
-										<div>
-											<a href="#" class="waves-effect waves-circle btn btn-circle btn-primary-light btn-sm mx-15"><i class="fa fa-phone"></i></a>
-										</div>
-									</div>
-									<div class="d-flex justify-content-between align-items-end mt-40 py-10 bt-dashed border-top">
-										<div>
-											<p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 11:00 <span class="mx-20">$ 70</span></p>
-										</div>
-										<div>
-											<div class="dropdown">
-												<a data-bs-toggle="dropdown" href="#" class="base-font mx-30"><i class="ti-more-alt text-muted"></i></a>
-												<div class="dropdown-menu dropdown-menu-end">
-												  <a class="dropdown-item" href="#"><i class="ti-import"></i> Import</a>
-												  <a class="dropdown-item" href="#"><i class="ti-export"></i> Export</a>
-												  <a class="dropdown-item" href="#"><i class="ti-printer"></i> Print</a>
-												  <div class="dropdown-divider"></div>
-												  <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+								{% endfor %}
 							</div>
 						</div>
+						{% else %}
+						<div class="box-header">
+							<h4 class="box-title">No Transfer Yet</h4>
+						</div>
+						{% endif %}
 					</div>
 				</div>
 				<div class="col-xl-6 col-12">						
@@ -123,116 +115,54 @@
 						<div class="box-header">
 							<h4 class="box-title">Recent Patient</h4>
 						</div>
+						{% if recent_patients %}
 						<div class="box-body">	
 							<div class="news-slider owl-carousel owl-sl">	
+								{% for recent_patient in recent_patients %}
 								<div>
 									<div class="d-flex align-items-center mb-10">
 										<div class="d-flex flex-column flex-grow-1 fw-500">
-											<p class="hover-primary text-fade mb-1 fs-14"><i class="fa fa-link"></i> Shawn Hampton</p>
-											<span class="text-dark fs-16">Beta 2 Microglobulin</span>
-											<p class="mb-0 fs-14">Marker Test <span class="badge badge-dot badge-primary"></span></p>
-										</div>
-										<div>
-											<div class="dropdown">
-												<a data-bs-toggle="dropdown" href="#" class="base-font mx-30"><i class="ti-more-alt text-muted"></i></a>
-												<div class="dropdown-menu dropdown-menu-end">
-												  <a class="dropdown-item" href="#"><i class="ti-import"></i> Import</a>
-												  <a class="dropdown-item" href="#"><i class="ti-export"></i> Export</a>
-												  <a class="dropdown-item" href="#"><i class="ti-printer"></i> Print</a>
-												  <div class="dropdown-divider"></div>
-												  <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
-												</div>
-											</div>
+											<p class="hover-primary text-fade mb-1 fs-14"><i class="fa fa-link"></i>{{recent_patient.patient.first_name}} {{recent_patient.patient.last_name}}</p>
+											{% if request.user.role == 'CHW' %}
+											<span class="text-dark fs-16">{{recent_patient.health_facility.name}}</span>
+											{% else %}
+											<span class="text-dark fs-16">{{recent_patient.community_work.name}}</span>
+											{% endif %}
+											<p class="mb-0 fs-14">{{recent_patient.date}} <span class="badge badge-dot badge-primary"></span></p>
 										</div>
 									</div>
 									<div class="d-flex justify-content-between align-items-end py-10">
 										<div>
-											<a href="#" class="waves-effect waves-light btn btn-sm btn-primary-light">Details</a>
-											<a href="#" class="waves-effect waves-light btn btn-sm btn-primary-light">Contact Patient</a>
-										</div>
-										<div>
-											<a href="#" class="waves-effect waves-light btn btn-sm btn-primary-light"><i class="fa fa-check"></i> Archive</a>
+											<a href="#" class="waves-effect waves-light btn btn-sm btn-primary-light">{{recent_patient.status}}</a>
+											<a href="#" class="waves-effect waves-light btn btn-sm btn-primary-light">{{recent_patient.diagnize_classification}}</a>
 										</div>
 									</div>
 								</div>
-								<div>
-									<div class="d-flex align-items-center mb-10">
-										<div class="d-flex flex-column flex-grow-1 fw-500">
-											<p class="hover-primary text-fade mb-1 fs-14"><i class="fa fa-link"></i> Johen Doe</p>
-											<span class="text-dark fs-16">Keeping pregnant</span>
-											<p class="mb-0 fs-14">Prga Test <span class="badge badge-dot badge-primary"></span></p>
-										</div>
-										<div>
-											<div class="dropdown">
-												<a data-bs-toggle="dropdown" href="#" class="base-font mx-30"><i class="ti-more-alt text-muted"></i></a>
-												<div class="dropdown-menu dropdown-menu-end">
-												  <a class="dropdown-item" href="#"><i class="ti-import"></i> Import</a>
-												  <a class="dropdown-item" href="#"><i class="ti-export"></i> Export</a>
-												  <a class="dropdown-item" href="#"><i class="ti-printer"></i> Print</a>
-												  <div class="dropdown-divider"></div>
-												  <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="d-flex justify-content-between align-items-end py-10">
-										<div>
-											<a href="#" class="waves-effect waves-light btn btn-sm btn-primary-light">Details</a>
-											<a href="#" class="waves-effect waves-light btn btn-sm btn-primary-light">Contact Patient</a>
-										</div>
-										<div>
-											<a href="#" class="waves-effect waves-light btn btn-sm btn-primary-light"><i class="fa fa-check"></i> Archive</a>
-										</div>
-									</div>
-								</div>
-								<div>
-									<div class="d-flex align-items-center mb-10">
-										<div class="d-flex flex-column flex-grow-1 fw-500">
-											<p class="hover-primary text-fade mb-1 fs-14"><i class="fa fa-link"></i> Polly Paul</p>
-											<span class="text-dark fs-16">USG + Consultation</span>
-											<p class="mb-0 fs-14">Marker Test <span class="badge badge-dot badge-primary"></span></p>
-										</div>
-										<div>
-											<div class="dropdown">
-												<a data-bs-toggle="dropdown" href="#" class="base-font mx-30"><i class="ti-more-alt text-muted"></i></a>
-												<div class="dropdown-menu dropdown-menu-end">
-												  <a class="dropdown-item" href="#"><i class="ti-import"></i> Import</a>
-												  <a class="dropdown-item" href="#"><i class="ti-export"></i> Export</a>
-												  <a class="dropdown-item" href="#"><i class="ti-printer"></i> Print</a>
-												  <div class="dropdown-divider"></div>
-												  <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="d-flex justify-content-between align-items-end py-10">
-										<div>
-											<a href="#" class="waves-effect waves-light btn btn-sm btn-primary-light">Details</a>
-											<a href="#" class="waves-effect waves-light btn btn-sm btn-primary-light">Contact Patient</a>
-										</div>
-										<div>
-											<a href="#" class="waves-effect waves-light btn btn-sm btn-primary-light"><i class="fa fa-check"></i> Archive</a>
-										</div>
-									</div>
-								</div>
+								{% endfor %}
+							</div>
+						</div>
+						{% else %}
+						<div class="box-header">
+							<h4 class="box-title">Recent Patient</h4>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+				<div class="col-xl-6 col-12">
+					<div class="box">
+						<div class="box-body">
+							<h4 class="box-title">Patient Diagnosed</h4>
+							<div>
+								<canvas id="bar-chart1" height="200"></canvas>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-6 col-12">						
-					<div class="box">
-						<div class="box-header">
-							<h4 class="box-title">Overal Today appointment</h4>
-						</div>
-						<div class="box-body">										
-							<div id="appointment_overview"></div>							
-						</div>
-					</div>
-				</div>
+				
 				<div class="col-xl-6 col-12">	
 					<div class="box">		
 						<div class="box-header no-border">
-							<h4 class="box-title">Appointments Overview</h4>
+							<h4 class="box-title">Patient Status</h4>
 						</div>
 						<div class="box-body">	
 							<div id="chart432"></div>
@@ -254,7 +184,7 @@
 						<div>
 							<div class="d-flex align-items-center mb-10">
 								<div class="me-15">
-									<img src="{% static 'images/avatar/avatar-1.png' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
+									<img src="{% static 'images/p3.jpg' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
 								</div>
 								<div class="d-flex flex-column flex-grow-1 fw-500">
 									<p class="hover-primary text-fade mb-1 fs-14">Shawn Hampton</p>
@@ -266,7 +196,7 @@
 							</div>
 							<div class="d-flex justify-content-between align-items-end mb-15 py-10 bb-dashed border-bottom">
 								<div>
-									<p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 10:00 <span class="mx-20">$ 30</span></p>
+									<p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 10:00 <span class="mx-20"></span></p>
 								</div>
 								<div>
 									<div class="dropdown">
@@ -285,7 +215,7 @@
 						<div>
 							<div class="d-flex align-items-center mb-10">
 								<div class="me-15">
-									<img src="{% static 'images/avatar/avatar-2.png' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
+									<img src="{% static 'images/p4.jpg' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
 								</div>
 								<div class="d-flex flex-column flex-grow-1 fw-500">
 									<p class="hover-primary text-fade mb-1 fs-14">Polly Paul</p>
@@ -297,7 +227,7 @@
 							</div>
 							<div class="d-flex justify-content-between align-items-end mb-15 py-10 bb-dashed border-bottom">
 								<div>
-									<p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 10:30 <span class="mx-20">$ 50</span></p>
+									<p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 10:30 <span class="mx-20"></span></p>
 								</div>
 								<div>
 									<div class="dropdown">
@@ -316,7 +246,7 @@
 						<div>
 							<div class="d-flex align-items-center mb-10">
 								<div class="me-15">
-									<img src="{% static 'images/avatar/avatar-3.png' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
+									<img src="{% static 'images/p5.jpg' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
 								</div>
 								<div class="d-flex flex-column flex-grow-1 fw-500">
 									<p class="hover-primary text-fade mb-1 fs-14">Johen Doe</p>
@@ -328,7 +258,7 @@
 							</div>
 							<div class="d-flex justify-content-between align-items-end mb-15 py-10 bb-dashed border-bottom">
 								<div>
-									<p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 11:00 <span class="mx-20">$ 70</span></p>
+									<p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 11:00 <span class="mx-20"></span></p>
 								</div>
 								<div>
 									<div class="dropdown">
@@ -347,7 +277,7 @@
 						<div>
 							<div class="d-flex align-items-center mb-10">
 								<div class="me-15">
-									<img src="{% static 'images/avatar/avatar-4.png' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
+									<img src="{% static 'images/p6.jpg' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
 								</div>
 								<div class="d-flex flex-column flex-grow-1 fw-500">
 									<p class="hover-primary text-fade mb-1 fs-14">Harmani Doe</p>
@@ -378,7 +308,7 @@
 						<div>
 							<div class="d-flex align-items-center mb-10">
 								<div class="me-15">
-									<img src="{% static 'images/avatar/avatar-5.png' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
+									<img src="{% static 'images/p7.jpg' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
 								</div>
 								<div class="d-flex flex-column flex-grow-1 fw-500">
 									<p class="hover-primary text-fade mb-1 fs-14">Mark Wood</p>
@@ -390,7 +320,7 @@
 							</div>
 							<div class="d-flex justify-content-between align-items-end mb-15 py-10 bb-dashed border-bottom">
 								<div>
-									<p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 12:00 <span class="mx-20">$ 30</span></p>
+									<p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 12:00 <span class="mx-20"></span></p>
 								</div>
 								<div>
 									<div class="dropdown">
@@ -406,37 +336,7 @@
 								</div>
 							</div>
 						</div>
-						<div>
-							<div class="d-flex align-items-center mb-10">
-								<div class="me-15">
-									<img src="{% static 'images/avatar/avatar-6.png' %}" class="avatar avatar-lg rounded10 bg-primary-light" alt="" />
-								</div>
-								<div class="d-flex flex-column flex-grow-1 fw-500">
-									<p class="hover-primary text-fade mb-1 fs-14">Shawn Marsh</p>
-									<span class="text-dark fs-16">Emergency appointment</span>
-								</div>
-								<div>
-									<a href="#" class="waves-effect waves-circle btn btn-circle btn-primary-light btn-sm"><i class="fa fa-phone"></i></a>
-								</div>
-							</div>
-							<div class="d-flex justify-content-between align-items-end mb-15 py-10 bb-dashed border-bottom">
-								<div>
-									<p class="mb-0 text-muted"><i class="fa fa-clock-o me-5"></i> 13:00 <span class="mx-20">$ 90</span></p>
-								</div>
-								<div>
-									<div class="dropdown">
-										<a data-bs-toggle="dropdown" href="#" class="base-font mx-10"><i class="ti-more-alt text-muted"></i></a>
-										<div class="dropdown-menu dropdown-menu-end">
-										  <a class="dropdown-item" href="#"><i class="ti-import"></i> Import</a>
-										  <a class="dropdown-item" href="#"><i class="ti-export"></i> Export</a>
-										  <a class="dropdown-item" href="#"><i class="ti-printer"></i> Print</a>
-										  <div class="dropdown-divider"></div>
-										  <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -446,3 +346,4 @@
 <!-- /.content -->
 
 {% endblock main-content %}
+{% comment %} <script src="../assets/vendor_components/chart.js-master/Chart.min.js"></script> {% endcomment %}

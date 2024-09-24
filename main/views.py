@@ -23,6 +23,7 @@ from location.models import District, Sector, Cell, Village
 from django.utils import timezone
 from.send_sms import send_sms
 from .send_mail import anc_send_email
+from .chart_data import chart_data
 
 class RoleRequiredMixin(LoginRequiredMixin, View):
     allowed_roles = []  # Set allowed roles in the view class
@@ -138,6 +139,54 @@ class HomeView(TemplateView):
     allowed_roles = []
     template_name = 'main/index.html'
 
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        context_data =  super().get_context_data(**kwargs)
+        if user.role == Role.CHW:
+            context_data['recent_transfers'] = Transfer.objects.filter(visit__community_work=user.chw_assigned)[:4]
+            context_data['recent_patients'] = Visit.objects.filter(community_work=user.chw_assigned)[:4]
+
+
+            context_data['total_transfer'] = Transfer.objects.filter(visit__community_work=user.chw_assigned).count()
+            context_data['total_patient'] = Visit.objects.filter(community_work=user.chw_assigned).count()
+            context_data['today_patient'] = Visit.objects.filter(community_work=user.chw_assigned, date=timezone.now()).count()
+
+            context_data['visit_chart_data'] = chart_data(Visit.objects.filter(community_work=user.chw_assigned))
+
+        elif user.role == Role.HEALTH_FACILITY:
+            context_data['recent_transfers'] = Transfer.objects.filter(from_health_facility=user.health_facility_assigned)[:4]
+            context_data['recent_patients'] = Visit.objects.filter(health_facility=user.health_facility_assigned)[:4]
+
+            context_data['total_transfer'] = Transfer.objects.filter(from_health_facility=user.health_facility_assigned).count()
+            context_data['total_patient'] = Visit.objects.filter(health_facility=user.health_facility_assigned).count()
+            context_data['today_patient'] = Visit.objects.filter(health_facility=user.health_facility_assigned, date=timezone.now()).count()
+
+            context_data['visit_chart_data'] = chart_data(Visit.objects.filter(health_facility=user.health_facility_assigned))
+
+        elif user.role == Role.HOSPITAL:
+            context_data['recent_transfers'] = Transfer.objects.filter(from_health_facility=user.health_facility_assigned)[:4]
+            context_data['recent_patients'] = Visit.objects.filter(health_facility=user.health_facility_assigned)[:4]
+            context_data['is_hospital'] = True
+
+
+            context_data['total_transfer'] = Transfer.objects.filter(from_health_facility=user.health_facility_assigned).count()
+            context_data['total_patient'] = Visit.objects.filter(health_facility=user.health_facility_assigned).count()
+            context_data['today_patient'] = Visit.objects.filter(health_facility=user.health_facility_assigned, date=timezone.now()).count()
+
+            context_data['visit_chart_data'] = chart_data(Visit.objects.filter(health_facility=user.health_facility_assigned))
+        else:
+            context_data['recent_transfers'] = Transfer.objects.all()[:4]
+            context_data['recent_patients'] = Visit.objects.all()[:4]
+
+            context_data['total_transfer'] = Transfer.objects.all().count()
+            context_data['total_patient'] = Visit.objects.all().count()
+            context_data['today_patient'] = Visit.objects.filter(date=timezone.now()).count()
+
+            context_data['visit_chart_data'] = chart_data(Visit.objects.all())
+            print("----------------------------")
+            print(context_data['visit_chart_data'])
+        return context_data
+
 class AppointmentView(RoleRequiredMixin, ListView):
     allowed_roles = [Role.ADMIN, Role.HEALTH_FACILITY, Role.HOSPITAL]
     model = Appointment
@@ -168,8 +217,9 @@ class AddPatientView(RoleRequiredMixin, SuccessMessageMixin, CreateView):
         try:
             obj = Patient.objects.filter(identity=form.instance.identiy).first()
         except:
+            obj = None
             print("object not found")
-        if obj:
+        if obj == None:
             form.instance.health_facility = self.request.user.health_facility_assigned
             send_sms('+250783378349', "Thanks for coming to our health center. your Information was recorded successfully")
             anc_send_email(form.instance.email, "Thanks for coming to our health center. your Information was recorded successfully")
@@ -392,3 +442,8 @@ def load_village_drop_downs(request):
         "items": Village.objects.filter(cell=id)
     }
     return render(request, 'htmx/location_dropdown.html', context)
+
+
+
+
+

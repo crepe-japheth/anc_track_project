@@ -174,12 +174,12 @@ $(function () {
 		
 	
 	var options = {
-          series: [30, 25, 30, 25],
+          series: chartData[1].counts, //[30, 25, 30, 25],//
           chart: {
           height: 200,
           type: 'polarArea'
         },
-        labels: ['Male', 'Female', 'Child', 'Germany'],
+        labels: chartData[1].labels, //['Male', 'Female', 'Child', 'Germany'], //
         fill: {
           opacity: 1
         },
